@@ -67,6 +67,23 @@ public class AreaChartApp extends Application {
         VBox checkBoxContainer = new VBox();
         checkBoxContainer.getChildren().addAll(countryCheckBoxes);
         
+        chart.getChildren().add(checkBoxContainer);
+
+        //creates a check box for each country if box is checked it will show data if it isnt it wont show the data
+        for (CheckBox checkBox : countryCheckBoxes) {
+            checkBox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                for(XYChart.Data<String, Number> data: series.getData()){
+                    if(data.getXValue().equals(checkBox.getText())){
+                        if(!isNowSelected){
+                          data.getNode().setVisible(false);
+                        }else{
+                          data.getNode().setVisible(true);
+                        }
+                    }
+                }
+            });
+        }
+
         return chart;
 
     }
