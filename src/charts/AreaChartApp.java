@@ -12,6 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -92,6 +93,10 @@ public class AreaChartApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(new Scene(createContent()));
         primaryStage.show();
+        
+        VBox root = new VBox();
+        root.getChildren().addAll(chart, checkBoxContainer);
+        primaryStage.setScene(new Scene(root));
     }
 
     public static void main(String[] args) {
