@@ -10,6 +10,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
+import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,9 +21,10 @@ import java.util.List;
 
 public class AreaChartApp extends Application {
     public Parent createContent() {
-        String fileName = "C:/Users/matth/Downloads/cpt-MatthewMonzon 1/cpt-MatthewMonzon/src/charts/data.csv";
+        String fileName = "src/charts/data.csv";
         List<String[]> data = new ArrayList<>();
 
+        //read the csv file 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             br.readLine(); // Skip the first line (headers)
@@ -33,9 +36,10 @@ public class AreaChartApp extends Application {
             e.printStackTrace();
         }
 
+        //make my chart lables
         ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Entity vs Rate");
+        series.setName("Country vs Deaths");
 
         for (String[] row : data) {
             series.getData().add(new XYChart.Data<>(row[0], Double.parseDouble(row[3])));
@@ -44,15 +48,27 @@ public class AreaChartApp extends Application {
         areaChartData.add(series);
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Rate");
+        yAxis.setLabel("Deaths");
 
         NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("Entity");
+        xAxis.setLabel("Country");
 
         AreaChart<String, Number> chart = new AreaChart<>(new CategoryAxis(), new NumberAxis(), areaChartData);
-        chart.setTitle("Entity vs Rate");
+        chart.setTitle("Country vs Deaths");
 
+        //create a check box
+        List<CheckBox> countryCheckBoxes = new ArrayList<>();
+        for (String[] row : data) {
+            CheckBox checkBox = new CheckBox(row[0]);
+            checkBox.setSelected(true); // set the checkbox to be selected by default
+            countryCheckBoxes.add(checkBox);
+        }
+        
+        VBox checkBoxContainer = new VBox();
+        checkBoxContainer.getChildren().addAll(countryCheckBoxes);
+        
         return chart;
+
     }
 
     @Override

@@ -24,9 +24,10 @@ import java.util.List;
  */
 public class BarChartApp extends Application {
     public Parent createContent() {
-        String fileName = "C:/Users/matth/Downloads/cpt-MatthewMonzon 1/cpt-MatthewMonzon/src/charts/data.csv";
+        String fileName = "src/charts/data.csv";
         List<String[]> data = new ArrayList<>();
 
+        //read the info in cvs
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
           String line;
           br.readLine(); // Skip the first line (headers)
@@ -39,11 +40,11 @@ public class BarChartApp extends Application {
         }
 
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("Entity");
+        xAxis.setLabel("Country");
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Rate");
+        yAxis.setLabel("Deaths");
         BarChart<String, Number> chart = new BarChart<>(xAxis, yAxis);
-        chart.setTitle("Entity vs Rate");
+        chart.setTitle("Country vs Deaths");
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         for (String[] row : data) {
